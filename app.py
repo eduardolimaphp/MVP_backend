@@ -91,11 +91,11 @@ def atualizar_produto_id(form: ProdutosUpdateSchema):
     except Exception as e:
         error_atualizar_produto = "Erro ao atualizar produto, verifique os dados inseridos."
         return {"message": error_atualizar_produto}, 400
-    
+   
 @app.delete("/produtos/<int:id>", tags=[produto_tag],
             responses={200:ProdutoViewSchema, 404: ErrorSchema})
-def deletar_produto(path: ProdutosDeleteSchema):
-    """Este endpoint deleta um produto"""
+def deletar_produto_completo(path: ProdutosDeleteSchema):
+    """Este endpoint deleta um produto por completo"""
     with Session(engine) as session:
         produto = session.query(Produto).filter(Produto.id == path.id).first()
         if not produto:
@@ -103,6 +103,25 @@ def deletar_produto(path: ProdutosDeleteSchema):
         session.delete(produto)
         session.commit()
         return get_produto_por_id(produto)
+
+@app.delete("/produtos/<int:id>", tags=[produto_tag],
+            responses={200:ProdutoViewSchema, 404: ErrorSchema})
+def deletar_produto(path: ProdutosDeleteSchema):
+    """Este endpoint decrementa a quantidade do produto e deleta se a quantidade for zero."""
+    with Session(engine) as session:
+        produto = session.query(Produto).filter(Produto.id == path.id).first()
+        if not produto:
+            return {"message": "Produto não encontrado"}, 404
+
+        if produto.quantidade > 1:
+            produto.quantidade -= 1
+            session.commit()
+        else:
+            session.delete(produto)
+            session.commit()
+
+        return get_produto_por_id(produto)
+
 
 #criando endpoints de vendas
 @app.get("/vendas", tags=[vendas_tag],
