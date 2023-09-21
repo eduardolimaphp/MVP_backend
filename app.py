@@ -72,10 +72,36 @@ def criar_produto(form: ProdutosCreateSchema):
     except Exception as e:
         error_criar_produto = "Erro ao criar produto, verifique os dados inseridos."
         return {"message": error_criar_produto}, 400
+    
 
-@app.put("/produtos/<int:id>", tags=[produto_tag],
+@app.put("/produtos/<int:id>")
+def atualizar_produto(id: int):
+    """Este endpoint atualiza a quantidade de um produto"""
+
+    form = request.json  # Obter o corpo JSON do pedido
+
+    if not form or 'quantidade_produto' not in form:
+        return {"message": "Dados de entrada inválidos."}, 400
+
+    try:
+        with Session(engine) as session:
+            produto_atualizado = session.query(Produto).filter(Produto.id == id).first()
+
+            if not produto_atualizado:
+                return {"message": "Produto não encontrado"}, 404
+
+            produto_atualizado.quantidade = form['quantidade_produto']
+            session.commit()
+
+            return get_produto_por_id(produto_atualizado.id)
+    except Exception as e:
+        return {"message": "Erro ao atualizar produto, verifique os dados inseridos."}, 400
+
+
+
+@app.put("/produtos/<int:id>/completo", tags=[produto_tag],
             responses={200:ProdutoViewSchema, 400: ErrorSchema, 404: ErrorSchema})
-def atualizar_produto_id(form: ProdutosUpdateSchema):
+def atualizar_produto_id_completo(form: ProdutosUpdateSchema):
     """Este endpoint atualiza um produto"""
     try:
         with Session(engine) as session:
@@ -92,7 +118,7 @@ def atualizar_produto_id(form: ProdutosUpdateSchema):
         error_atualizar_produto = "Erro ao atualizar produto, verifique os dados inseridos."
         return {"message": error_atualizar_produto}, 400
    
-@app.delete("/produtos/<int:id>", tags=[produto_tag],
+@app.delete("/produtos/removeregistro/<int:id>", tags=[produto_tag],
             responses={200:ProdutoViewSchema, 404: ErrorSchema})
 def deletar_produto_completo(path: ProdutosDeleteSchema):
     """Este endpoint deleta um produto por completo"""

@@ -29,6 +29,10 @@ class ProdutosUpdateSchema(BaseModel):
     quantidade_produto: int = 2
     data_de_cadastro: str = "2021-10-10 10:10:10"
 
+class ProdutoQUpdateSchema(BaseModel):
+    """ProdutoQUpdateSchema - Schema para atualização de quantidade de produtos"""
+    quantidade_produto: int = 2
+
 class ProdutosDeleteSchema(BaseModel):
     """ProdutosDeleteSchema - Schema para remoção de produtos"""
     id: int = 1
