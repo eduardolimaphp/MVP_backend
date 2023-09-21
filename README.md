@@ -1,34 +1,35 @@
 # 🥖 Padaria API
 
-🍰 Uma interface simples e eficiente para gerenciar sua padaria!
+Essa API foi desenvolvida para gerenciar os principais recursos de uma padaria: produtos, vendas e clientes. Ela utiliza Flask e SQLAlchemy para a manipulação e consulta ao banco de dados e conta com uma documentação OpenAPI integrada.
 
----
+## 📜 Principais Recursos
+
+- **Produtos**: Permite listar, criar, atualizar e deletar produtos com detalhes como nome, preço, quantidade e data de inserção.
+- **Vendas**: Administra as vendas, incluindo detalhes sobre o produto vendido, cliente, quantidade vendida, data e comentários.
+- **Clientes**: Gestão dos dados dos clientes, como nome, data de cadastro, e-mail e telefone.
 
 ## 📋 Índice
 
-- [Descrição](#-descrição)
-- [Instalação e Configuração](#-instalação-e-configuração)
+- [Descrição](#descrição)
+- [Instalação e Configuração](#instalação-e-configuração)
   - [Ambiente Virtual](#ambiente-virtual)
   - [Dependências](#dependências)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-  - [App.py](#app)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+  - [App.py](#apppy)
   - [Model](#model)
   - [Schemas](#schemas)
-- [Uso](#-uso)
-
----
+- [Uso](#uso)
+- [Endpoints](#endpoints)
 
 ## 📜 Descrição
 
-Esta é uma API desenvolvida para facilitar o gerenciamento de uma padaria. Com ela, os usuários podem facilmente gerenciar produtos, vendas e clientes.
-
----
+Esta API foi concebida para simplificar o gerenciamento de uma padaria, proporcionando facilidade na gestão de produtos, vendas e clientes.
 
 ## 🚀 Instalação e Configuração
 
 ### Ambiente Virtual
 
-1️⃣ Evite conflitos entre bibliotecas utilizando um ambiente virtual:
+1️⃣ Para evitar conflitos entre bibliotecas, utilize um ambiente virtual:
 
 ```bash
 # Instale o virtualenv
@@ -44,22 +45,30 @@ env\Scripts\activate
 # No Linux ou MacOS:
 source env/bin/activate
 
+```
+
 Dependências
-2️⃣ Com o ambiente virtual ativado, instale as dependências do projeto:
+2️⃣ Com o ambiente virtual ativado, instale as dependências:
 
-bash
-Copy code
 pip install -r requirements.txt
-📂 Estrutura do Projeto
 
+
+📂 Estrutura do Projeto
 App.py
-📄 app.py é o ponto de entrada da nossa API. Aqui, você encontrará a configuração inicial do servidor e as rotas para os diversos endpoints disponíveis.
+O arquivo app.py é o ponto de entrada da nossa API, configurando o servidor e definindo rotas para os diversos endpoints.
 
 Model
-📁 A pasta model armazena os modelos de dados que representam as tabelas do banco de dados. Aqui, você encontrará estruturas como Produto, Vendas e Cliente.
+A pasta model contém modelos de dados que representam as tabelas no banco de dados.
 
 Schemas
-📁 A pasta schemas contém esquemas responsáveis pela serialização e deserialização dos objetos dos modelos. Estes esquemas garantem a conversão correta dos objetos para um formato JSON.
+Dentro da pasta schemas, encontram-se esquemas para serialização e deserialização dos objetos, garantindo sua conversão correta para JSON.
 
 🖥 Uso
-Após concluir as etapas de instalação, você está pronto para executar a API e explorar seus diversos endpoints!
+Depois de concluir a instalação e configuração, inicie a API e explore seus endpoints!
+
+🌐 Endpoints
+A seguir, estão listados os principais endpoints da API:
+
+/produtos: GET, POST, PUT, DELETE para gerenciamento de produtos.
+/vendas: GET, POST, PUT, DELETE para administração de vendas.
+/clientes: GET, POST, PUT, DELETE para gestão de clientes.
