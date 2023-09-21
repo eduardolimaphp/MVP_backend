@@ -47,28 +47,31 @@ source env/bin/activate
 
 ```
 
-Dependências
+### Dependências
 2️⃣ Com o ambiente virtual ativado, instale as dependências:
 
 pip install -r requirements.txt
 
 
-📂 Estrutura do Projeto
-App.py
+## 📂 Estrutura do Projeto
+
+### App.py
 O arquivo app.py é o ponto de entrada da nossa API, configurando o servidor e definindo rotas para os diversos endpoints.
 
-Model
+### Model
 A pasta model contém modelos de dados que representam as tabelas no banco de dados.
 
-Schemas
+### Schemas
 Dentro da pasta schemas, encontram-se esquemas para serialização e deserialização dos objetos, garantindo sua conversão correta para JSON.
 
-🖥 Uso
+## 🖥 Uso
 Depois de concluir a instalação e configuração, inicie a API e explore seus endpoints!
 
-🌐 Endpoints
+## 🌐 Endpoints
 A seguir, estão listados os principais endpoints da API:
 
 /produtos: GET, POST, PUT, DELETE para gerenciamento de produtos.
+
 /vendas: GET, POST, PUT, DELETE para administração de vendas.
+
 /clientes: GET, POST, PUT, DELETE para gestão de clientes.
