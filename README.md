@@ -1,4 +1,4 @@
-# 🥖 Padaria API
+# 🥖 Padaria Le Baguette - API
 
 Essa API foi desenvolvida para gerenciar os principais recursos de uma padaria: produtos, vendas e clientes. Ela utiliza Flask e SQLAlchemy para a manipulação e consulta ao banco de dados e conta com uma documentação OpenAPI integrada.
 
