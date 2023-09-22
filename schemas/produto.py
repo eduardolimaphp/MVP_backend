@@ -39,7 +39,7 @@ class ProdutosDeleteSchema(BaseModel):
 
 class ProdutosPathSchema(BaseModel):
     """ProdutosPathSchema - Schema para busca de produtos"""
-    id: int = 1
+    busca: str
 
 def get_produtos(produtos: List[Produto]):
     """get_produtos_view_schema - Retorna lista de produtos"""

@@ -3,6 +3,7 @@ from flask_openapi3 import OpenAPI, Info, Tag
 from flask_cors import CORS
 
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import text, or_
 from model import engine
 
 #importando models
@@ -42,20 +43,20 @@ def home():
 def listar_produtos():
     """Este endpoint retorna uma lista de produtos"""
     with Session(engine) as session:
-        produtos = session.query(Produto).all()
+        produtos = session.query(Produto).order_by(text("id DESC")).all()
         if not produtos:
             return {"message": "Nenhum produto encontrado"}, 404
         return get_produtos(produtos)
     
-@app.get("/produtos/<int:id>", tags=[produto_tag],
+@app.get("/produtos/<string:busca>", tags=[produto_tag],
             responses={200:ProdutoViewSchema, 404: ErrorSchema})
 def listar_produto_por_id(path: ProdutosPathSchema):
     """Este endpoint retorna um produto por ID"""
     with Session(engine) as session:
-        produto = session.query(Produto).filter(Produto.id == path.id).first()
+        produto = session.query(Produto).filter(or_(Produto.id == path.busca, Produto.nome.ilike("%" + path.busca + "%"))).order_by(text("id DESC")).all()
         if not produto:
             return {"message": "Produto não encontrado"}, 404
-        return get_produto_por_id(produto)
+        return get_produtos(produto)
     
 
 @app.post("/produtos", tags=[produto_tag],
@@ -89,8 +90,8 @@ def atualizar_produto(id):
             session.commit()
             return jsonify(get_produto_por_id(produto_atualizado))
     except Exception as e:
-        abort(400, description="Erro ao atualizar produto, verifique os dados inseridos.")
-
+        abort(400, description=f"Erro ao atualizar produto, verifique os dados inseridos. {str(e)}")
+        
         
 @app.delete("/produtos/removeregistro/<int:id>", tags=[produto_tag],
             responses={200:ProdutoViewSchema, 404: ErrorSchema})
