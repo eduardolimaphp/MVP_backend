@@ -1,4 +1,4 @@
-from flask import request, redirect
+from flask import request, redirect, jsonify, abort
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask_cors import CORS
 
@@ -74,50 +74,24 @@ def criar_produto(form: ProdutosCreateSchema):
         return {"message": error_criar_produto}, 400
     
 
-@app.put("/produtos/<int:id>")
-def atualizar_produto(id: int):
-    """Este endpoint atualiza a quantidade de um produto"""
-
-    form = request.json  # Obter o corpo JSON do pedido
-
-    if not form or 'quantidade_produto' not in form:
-        return {"message": "Dados de entrada inválidos."}, 400
-
+@app.route("/produtos/<int:id>", methods=['PUT'])
+def atualizar_produto(id):
+    data = request.get_json()
+    quantidade_produto = data.get("quantidade_produto")
+    
     try:
         with Session(engine) as session:
             produto_atualizado = session.query(Produto).filter(Produto.id == id).first()
-
             if not produto_atualizado:
-                return {"message": "Produto não encontrado"}, 404
-
-            produto_atualizado.quantidade = form['quantidade_produto']
+                abort(404, description="Produto não encontrado")
+                
+            produto_atualizado.quantidade = quantidade_produto
             session.commit()
-
-            return get_produto_por_id(produto_atualizado.id)
+            return jsonify(get_produto_por_id(produto_atualizado))
     except Exception as e:
-        return {"message": "Erro ao atualizar produto, verifique os dados inseridos."}, 400
+        abort(400, description="Erro ao atualizar produto, verifique os dados inseridos.")
 
-
-
-@app.put("/produtos/<int:id>/completo", tags=[produto_tag],
-            responses={200:ProdutoViewSchema, 400: ErrorSchema, 404: ErrorSchema})
-def atualizar_produto_id_completo(form: ProdutosUpdateSchema):
-    """Este endpoint atualiza um produto"""
-    try:
-        with Session(engine) as session:
-            produto_atualizado = session.query(Produto).filter(Produto.id == form.id).first()
-            if not produto_atualizado:
-                return {"message": "Produto não encontrado"}, 404
-            produto_atualizado.nome = form.nome_produto
-            produto_atualizado.preco = form.preco_produto
-            produto_atualizado.quantidade = form.quantidade_produto
-            produto_atualizado.data_insercao = form.data_de_cadastro
-            session.commit()
-            return get_produto_por_id(produto_atualizado)
-    except Exception as e:
-        error_atualizar_produto = "Erro ao atualizar produto, verifique os dados inseridos."
-        return {"message": error_atualizar_produto}, 400
-   
+        
 @app.delete("/produtos/removeregistro/<int:id>", tags=[produto_tag],
             responses={200:ProdutoViewSchema, 404: ErrorSchema})
 def deletar_produto_completo(path: ProdutosDeleteSchema):
@@ -130,20 +104,21 @@ def deletar_produto_completo(path: ProdutosDeleteSchema):
         session.commit()
         return get_produto_por_id(produto)
 
-@app.delete("/produtos/<int:id>", tags=[produto_tag],
+@app.delete("/produtos/<int:id>", tags=[produto_tag], 
             responses={200:ProdutoViewSchema, 404: ErrorSchema})
 def deletar_produto(path: ProdutosDeleteSchema):
     """Este endpoint decrementa a quantidade do produto e deleta se a quantidade for zero."""
     with Session(engine) as session:
+        data = request.get_json()
         produto = session.query(Produto).filter(Produto.id == path.id).first()
         if not produto:
             return {"message": "Produto não encontrado"}, 404
 
-        if produto.quantidade > 1:
-            produto.quantidade -= 1
+        if data.get('quantidade_produto') == 0:
+            session.delete(produto)
             session.commit()
         else:
-            session.delete(produto)
+            produto.quantidade -= 1
             session.commit()
 
         return get_produto_por_id(produto)
