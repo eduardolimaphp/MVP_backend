@@ -93,3 +93,12 @@ A seguir, estão listados os principais endpoints da API:
 /vendas: GET, POST, PUT, DELETE para administração de vendas.
 
 /clientes: GET, POST, PUT, DELETE para gestão de clientes.
+
+## 🤝 Contribuições
+
+Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir um `Issue` ou criar um `Pull Request`.
+
+---
+
+Obrigado.
+Feito por [EDUARDO LIMA VITAL](https://github.com/vitaledu)
