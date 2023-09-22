@@ -25,6 +25,24 @@ Essa API foi desenvolvida para gerenciar os principais recursos de uma padaria: 
 
 Esta API foi concebida para simplificar o gerenciamento de uma padaria, proporcionando facilidade na gestão de produtos, vendas e clientes.
 
+## 🛠️ Requisitos
+
+Antes de prosseguir com a instalação e configuração da API, certifique-se de que os seguintes requisitos estejam atendidos no seu sistema:
+
+- Python (versão 3.6 ou superior)
+- pip (gerenciador de pacotes Python)
+- virtualenv (ambiente virtual para Python)
+- Banco de dados SQL (recomendamos SQLite para desenvolvimento e PostgreSQL para produção)
+
+## ⚙️ Configuração do Banco de Dados
+
+Para configurar o banco de dados, siga as instruções abaixo:
+
+1. Acesse o arquivo `__init__.py ou config.py`.
+2. Modifique a variável `SQLALCHEMY_DATABASE_URI` com a URI do seu banco de dados.
+3. Execute o comando `flask db upgrade` para aplicar as migrações e criar as tabelas necessárias.
+
+
 ## 🚀 Instalação e Configuração
 
 ### Ambiente Virtual
@@ -35,12 +53,12 @@ Esta API foi concebida para simplificar o gerenciamento de uma padaria, proporci
 # Instale o virtualenv
 pip install virtualenv
 
-# Crie um ambiente virtual chamado 'env'
-virtualenv env
+# Crie um ambiente virtual chamado 'venv'
+python -m venv venv
 
 # Ative o ambiente virtual
 # No Windows:
-env\Scripts\activate
+.\venv\Scripts\activate
 
 # No Linux ou MacOS:
 source env/bin/activate
