@@ -100,5 +100,12 @@ Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir um `Issue
 
 ---
 
+## 📧 Contato
+
+Caso tenha alguma dúvida ou sugestão, sinta-se à vontade para entrar em contato pelo email: eduardolimavital@gmail.com
+
+---
+
 Obrigado.
 Feito por [EDUARDO LIMA VITAL](https://github.com/vitaledu)
+
